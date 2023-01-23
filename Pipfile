@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 flask = "*"
 newsapi-python = "*"
+python-dotenv = "*"
 
 [dev-packages]
 
