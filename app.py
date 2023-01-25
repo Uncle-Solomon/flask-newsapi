@@ -66,11 +66,11 @@ def index():
                                keyword=keyword)
 
     else:
-        top_headlines = newsapi.get_top_headlines(country="in", language="en")
+        top_headlines = newsapi.get_top_headlines(country="ng", language="en")
         total_results = top_headlines['totalResults']
         if total_results > 100:
             total_results = 100
-        all_headlines = newsapi.get_top_headlines(country="in",
+        all_headlines = newsapi.get_top_headlines(country="ng",
                                                      language="en", 
                                                      page_size=total_results)['articles']
         return render_template("home.html", all_headlines = all_headlines)
