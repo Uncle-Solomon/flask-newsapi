@@ -1,11 +1,14 @@
 from flask import Flask, render_template, request
 from newsapi import NewsApiClient
 from dotenv import load_dotenv
+import os
 
 load_dotenv()
 
+my_API_KEY = os.getenv("API_KEY")
+
 app = Flask(__name__)
-newsapi = NewsApiClient(api_key='API_KEY')
+newsapi = NewsApiClient(api_key=my_API_KEY)
 
 
 top_headlines = newsapi.get_top_headlines(country="us", language="en")
@@ -39,7 +42,7 @@ def get_sources_and_domains():
     return sources, domains
 
 
-app.route("/", methods=['GET', 'POST'])
+@app.route("/", methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
         sources, domains = get_sources_and_domains()
@@ -61,3 +64,17 @@ def index():
                                       page_size = no_of_articles)['articles']
         return render_template("home.html", all_articles = all_articles, 
                                keyword=keyword)
+
+    else:
+        top_headlines = newsapi.get_top_headlines(country="in", language="en")
+        total_results = top_headlines['totalResults']
+        if total_results > 100:
+            total_results = 100
+        all_headlines = newsapi.get_top_headlines(country="in",
+                                                     language="en", 
+                                                     page_size=total_results)['articles']
+        return render_template("home.html", all_headlines = all_headlines)
+    return render_template("home.html")
+  
+if __name__ == "__main__":
+    app.run(debug = True)
