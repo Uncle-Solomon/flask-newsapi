@@ -11,14 +11,14 @@ app = Flask(__name__)
 newsapi = NewsApiClient(api_key=my_API_KEY)
 
 
-top_headlines = newsapi.get_top_headlines(country="us", language="en")
+top_headlines = newsapi.get_top_headlines(country="ng", language="en")
 total_results = top_headlines['totalResults']
 
 
 if total_results > 100:
     total_results = 100
 
-all_headlines = newsapi.get_top_headlines(country="us",
+all_headlines = newsapi.get_top_headlines(country="ng",
                                           language="en",
                                           page_size=total_results)['articles']
 
